@@ -1,0 +1,6 @@
+{
+  "extends": ["@norathefurry"],
+  "rules": {
+    "complexity":"off"
+  }
+}
