@@ -9,15 +9,12 @@ To try it out, follow these steps:
 3. Install dependencies, this can be done with pnpm or other package mangers:
 
 - pnpm:
-`pnpm install -g ts-node@latest typescript@latest`
-and `pnpm install`
+`pnpm install -g ts-node@latest typescript@latest` and `pnpm install`
 
 - npm:
-`npm install -g ts-node@latest typescript@latest`
-and `npm install`
+`npm install -g ts-node@latest typescript@latest` and `npm install`
 
 - yarn:
-`yarn global add ts-node@latest typescript@latest`
-and `yarn install`
+`yarn global add ts-node@latest typescript@latest` and `yarn install`
 
 4. Run it with `ts-node .`
