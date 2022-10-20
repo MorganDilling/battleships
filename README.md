@@ -10,17 +10,14 @@ To try it out, follow these steps:
 
 - pnpm:
 `pnpm install -g ts-node@latest typescript@latest`
-<br>
 and `pnpm install`
 
 - npm:
 `npm install -g ts-node@latest typescript@latest`
-<br>
 and `npm install`
 
 - yarn:
 `yarn global add ts-node@latest typescript@latest`
-<br>
 and `yarn install`
 
 4. Run it with `ts-node .`
