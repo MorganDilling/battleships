@@ -25,4 +25,8 @@ export default class Vector2 {
   div(value:number) {
     return new Vector2(this.x / value, this.y / value);
   }
+
+  equals(vector2:Vector2) {
+    return this.x === vector2.x && this.y === vector2.y;
+  }
 }
