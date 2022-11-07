@@ -71,7 +71,7 @@ export class Grid {
     // render
     let output = '\n   ';
     for (let i = 0; i < this.gridSize; i++)
-      output += ` ${chalk.yellow(i + 1)} ` + ' ';
+      output += ` ${chalk.yellow(alphabet[i])} ` + ' ';
 
 
     output += '\n  ┌';
@@ -86,7 +86,7 @@ export class Grid {
     output += '┐';
 
     for (let i0 = 0; i0 < this.gridSize; i0++) {
-      let temp = `\n${chalk.blue(alphabet[i0])} │`;
+      let temp = `\n${chalk.blue(i0 + 1)} │`;
       for (let i1 = 0; i1 < this.gridSize; i1++) {
         const item = this.renderBuffer[i0][i1];
         temp += ` ${item !== null ? item : ' '} │`;
