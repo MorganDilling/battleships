@@ -39,14 +39,24 @@ const main = async () => {
 
       console.log(`Ship Size: ${gameRules.shipSizes[i]}\n`);
 
-      const rot = await input('Enter ship rotation (v/h): ');
-      const Rotation = rot === 'h' ? rotation.Horizontal : rot === 'v' ? rotation.Vertical : rotation.Horizontal;
+      let rot = '';
+
+      while (rot !== 'horizontal' && rot !== 'vertical') {
+        rot = await input('Enter ship rotation (vertical/horizontal): ');
+        if (rot !== 'horizontal' && rot !== 'vertical')
+          console.log('Invalid rotation. Try again.');
+      }
+
+
+      const Rotation = rot === 'horizontal' ? rotation.Horizontal : rot === 'vertical' ? rotation.Vertical : rotation.Horizontal;
 
       let valid = false;
       let coord:Vector2 = new Vector2;
       while (valid === false) {
         coord = stringCoordsToVector2(await input('Enter ship coordinate: '));
-        valid = IsValidPos(coord, gameRules.gridSize, gameRules.shipSizes[i], Rotation);
+        valid = IsValidPos(coord, pData.ships, gameRules.shipSizes[i], Rotation);
+
+        valid === false && console.log('Invalid coordinate. Try again.');
       }
 
 
@@ -73,6 +83,11 @@ const main = async () => {
 };
 
 main();
+
+// const a1 = new Vector2(1, 1);
+// const a2 = new Vector2(1, 1);
+
+// console.log(a1.equals(a2));
 
 
 // const g = new Grid(9);
