@@ -10,7 +10,7 @@ import { rotation } from '../lib/Instance';
 import Vector2 from '../lib/vector2';
 import GameRules from '../lib/GameRules';
 import PlayerData from '../lib/PlayerData';
-import IsValidPos from '../lib/IsValidPos';
+import IsValidPosition from '../lib/IsValidPosition';
 
 // game rules
 const gameRules = new GameRules({
@@ -25,122 +25,61 @@ const main = async () => {
   console.clear();
 
   // initialise player data
-  const p1Name = await input('Enter player one name: ');
-  const p2Name = await input('Input player two name: ');
+  const player1Name = await input('Enter player one name: ');
+  const player2Name = await input('Input player two name: ');
 
-  const onePlayerData = new PlayerData(gameRules, p1Name);
-  const twoPlayerData = new PlayerData(gameRules, p2Name);
+  const player1PlayerData = new PlayerData(gameRules, player1Name);
+  const player2PlayerData = new PlayerData(gameRules, player2Name);
 
-  const askForShips = async (pData:PlayerData) => {
+  const askForShips = async (playerData:PlayerData) => {
     for (let i = 0; i < gameRules.maxShips; i++) {
-      pData.ships.render();
+      playerData.ships.render();
 
-      console.log(`\n${onePlayerData.playerName} enter ships...\n`);
+      console.log(`\n${player1PlayerData.playerName} enter ships...\n`);
 
       console.log(`Ship Size: ${gameRules.shipSizes[i]}\n`);
 
-      let rot = '';
+      let rotationString = '';
 
-      while (rot !== 'horizontal' && rot !== 'vertical') {
-        rot = await input('Enter ship rotation (vertical/horizontal): ');
-        if (rot !== 'horizontal' && rot !== 'vertical')
+      while (rotationString !== 'horizontal' && rotationString !== 'vertical') {
+        rotationString = await input('Enter ship rotation (vertical/horizontal): ');
+        if (rotationString !== 'horizontal' && rotationString !== 'vertical')
           console.log('Invalid rotation. Try again.');
       }
 
 
-      const Rotation = rot === 'horizontal' ? rotation.Horizontal : rot === 'vertical' ? rotation.Vertical : rotation.Horizontal;
+      const Rotation = rotationString === 'horizontal' ? rotation.Horizontal : rotationString === 'vertical' ? rotation.Vertical : rotation.Horizontal;
 
       let valid = false;
-      let coord:Vector2 = new Vector2;
+      let coordinate:Vector2 = new Vector2;
       while (valid === false) {
-        coord = stringCoordsToVector2(await input('Enter ship coordinate: '));
-        valid = IsValidPos(coord, pData.ships, gameRules.shipSizes[i], Rotation);
+        coordinate = stringCoordsToVector2(await input('Enter ship coordinate: '));
+        valid = IsValidPosition(coordinate, playerData.ships, gameRules.shipSizes[i], Rotation);
 
         valid === false && console.log('Invalid coordinate. Try again.');
       }
 
 
-      const sz = gameRules.shipSizes[i];
+      const shipSize = gameRules.shipSizes[i];
 
 
-      pData.placeShip(coord, sz, Rotation);
+      playerData.placeShip(coordinate, shipSize, Rotation);
     }
   };
 
-  await askForShips(onePlayerData);
+  await askForShips(player1PlayerData);
 
   console.log('shouldnt run yet');
 
 
-  onePlayerData.ships.render();
+  player1PlayerData.ships.render();
 
   await input('Enter to confirm... ');
 
   console.clear();
 
-  await askForShips(twoPlayerData);
+  await askForShips(player2PlayerData);
 
 };
 
 main();
-
-// const a1 = new Vector2(1, 1);
-// const a2 = new Vector2(1, 1);
-
-// console.log(a1.equals(a2));
-
-
-// const g = new Grid(9);
-
-// const s = new Ship(new Vector2(5, 3), 5, rotation.Vertical);
-
-// g.children.push(s);
-
-// console.log(s.position, s.occupies);
-
-// s.position = new Vector2(7, 2);
-
-// const stringToV2 = stringCoordsToVector2('e5');
-
-// console.log('e5', stringToV2);
-
-// s.position = stringToV2;
-
-
-// console.log(s.position, s.occupies);
-
-// console.log(g);
-
-// s.occupies[0].value = HealthStatus.Destroyed;
-// s.occupies[1].value = HealthStatus.Destroyed;
-// s.occupies[2].value = HealthStatus.Destroyed;
-// s.occupies[3].value = HealthStatus.Destroyed;
-// s.occupies[4].value = HealthStatus.Destroyed;
-
-// g.render();
-
-// const clock = async () => {
-//   console.clear();
-//   g.render();
-
-//   console.log('children', g.children);
-//   g.children.map(child => console.log(child.health, child.occupies, child.position));
-
-
-
-//   const coord = await input('Enter ship coordinate: ');
-//   const size = await input('Enter ship size: ');
-//   const rot = await input('Enter ship rotation (v/h): ');
-
-//   const Rotation = rot === 'h' ? rotation.Horizontal : rot === 'v' ? rotation.Vertical : rotation.Horizontal;
-
-//   const vec = stringCoordsToVector2(coord);
-//   const sz = Number(size);
-
-//   g.children.push(new Ship(vec, sz, Rotation));
-
-
-//   clock();
-// };
-
-// clock();

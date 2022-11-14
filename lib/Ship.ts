@@ -11,9 +11,9 @@ export enum HealthStatus {
 export class Ship extends Instance {
   health: number;
   occupies: Array<{['value']: HealthStatus, ['pos']: Vector2}>;
-  constructor(Position:Vector2, Size:number, Rotation:rotation) {
-    super(Position, Size, Rotation);
-    this.health = Size;
+  constructor(position:Vector2, size:number, rotation:rotation) {
+    super(position, size, rotation);
+    this.health = size;
     this.occupies = [];
 
     this._updateOccupies();
@@ -28,9 +28,9 @@ export class Ship extends Instance {
     for (let i = 0; i < this.size; i++) {
       const current = this.occupies[i];
 
-      const pos = this.position[this.rotation === rotation.Horizontal ? 'x' : 'y'] - Math.floor(this.size / 2) + i;
+      const position = this.position[this.rotation === rotation.Horizontal ? 'x' : 'y'] - Math.floor(this.size / 2) + i;
 
-      const vector = this.rotation === rotation.Horizontal ? new Vector2(pos, this.position.y) : new Vector2(this.position.x, pos);
+      const vector = this.rotation === rotation.Horizontal ? new Vector2(position, this.position.y) : new Vector2(this.position.x, position);
 
       this.occupies[i] = {
         'value': current ? current.value : HealthStatus.Healthy, 'pos': vector

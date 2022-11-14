@@ -10,10 +10,10 @@ export class Instance {
   private _size: number;
   private _rotation: rotation;
   _updateCallback: null | ((props:Instance) => void);
-  constructor(Position:Vector2, Size:number, Rotation:rotation) {
-    this._position = Position;
-    this._size = Size;
-    this._rotation = Rotation;
+  constructor(position:Vector2, size:number, rotation:rotation) {
+    this._position = position;
+    this._size = size;
+    this._rotation = rotation;
     this._updateCallback = null;
   }
 

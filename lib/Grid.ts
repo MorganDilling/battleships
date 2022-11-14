@@ -1,5 +1,6 @@
+// imports
 import {
-  alphabet, getIndexFromChar
+  alphabet, getIndexFromCharacter
 } from './letters';
 import Vector2 from './vector2';
 import {
@@ -10,12 +11,18 @@ import {
 } from './Instance';
 import chalk from 'chalk';
 
+// constants
+const healthUnicodes = {
+  [HealthStatus.Healthy]: '■',
+  [HealthStatus.Destroyed]: '⨯',
+};
+
 /**
    * Example: "a3" returns Vector2 { x: 0, y: 2 }
    */
 export const stringCoordsToVector2 = (stringCoords:string):Vector2 => {
   const arrayCoords = stringCoords.split(''); // [0] = X [1] = Y
-  const x = getIndexFromChar(arrayCoords[0]);
+  const x = getIndexFromCharacter(arrayCoords[0]);
   const y = Number(arrayCoords[1]) - 1;
 
   return new Vector2(x, y);
@@ -46,23 +53,24 @@ export class Grid {
       throw new InvalidGridSizeError(gridSize);
   }
 
-  // ⛴   🔥    💣
+  private clearRenderBuffer() {
+    this.renderBuffer = [];
+  }
+
   render() {
-    this.renderBuffer = []; // clear buffer
+    this.clearRenderBuffer();
+
     for (let i0 = 0; i0 < this.gridSize; i0++) {
-      const temp:Array<string> = [];
+      const yArray:Array<string> = [];
       for (let i1 = 0; i1 < this.gridSize; i1++)
-        temp.push(' ');
-      this.renderBuffer.push(temp);
+        yArray.push(' ');
+      this.renderBuffer.push(yArray);
     }
 
     this.children.map(child => {
       child.occupies.map(occuputation => {
-        const vec = occuputation.pos;
-        if (occuputation.value === HealthStatus.Healthy)
-          this.renderBuffer[vec.y][vec.x] = chalk.grey('■');
-        else if (occuputation.value === HealthStatus.Destroyed)
-          this.renderBuffer[vec.y][vec.x] = chalk.red('⨯');
+        const occupationPosition = occuputation.pos;
+        this.renderBuffer[occupationPosition.y][occupationPosition.x] = healthUnicodes[occuputation.value];
 
       });
 
@@ -86,12 +94,12 @@ export class Grid {
     output += '┐';
 
     for (let i0 = 0; i0 < this.gridSize; i0++) {
-      let temp = `\n${chalk.blue(i0 + 1)} │`;
+      let currentLineString = `\n${chalk.blue(i0 + 1)} │`;
       for (let i1 = 0; i1 < this.gridSize; i1++) {
         const item = this.renderBuffer[i0][i1];
-        temp += ` ${item !== null ? item : ' '} │`;
+        currentLineString += ` ${item !== null ? item : ' '} │`;
       }
-      output += temp;
+      output += currentLineString;
       output += '\n  ';
       if (i0 + 1 === this.gridSize) {
         output += '└';
@@ -118,6 +126,7 @@ export class Grid {
 
     }
 
+    // finally
     console.log(output);
   }
 }

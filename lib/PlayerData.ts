@@ -16,10 +16,10 @@ export default class PlayerData {
     this.maxShips = gameRules.maxShips;
   }
 
-  placeShip (pos:Vector2, size:number, rot:rotation) {
+  placeShip (position:Vector2, size:number, rotation:rotation) {
     if (this.ships.children.length === this.maxShips)
       return;
-    const s = new Ship(pos, size, rot);
-    this.ships.children.push(s);
+    const ship = new Ship(position, size, rotation);
+    this.ships.children.push(ship);
   }
 }
